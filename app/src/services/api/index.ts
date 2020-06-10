@@ -20,12 +20,12 @@ export default class ApiService {
       .get(`${ApiService.BASE_URL}/posts`)
       .then((res: AxiosResponse<IPostsResponse[]>) => {
         const {data} = res
-        console.log(res)
         if (data && data.length !== 0) {
-          return data.map((post, index) => {
-            if (index < 20) return {...post, status: PostStatus.new}
-            return {...post, status: PostStatus.regular}
-          })
+          return data.map((post, index) =>
+            index < 20
+              ? {...post, status: PostStatus.new}
+              : {...post, status: PostStatus.regular},
+          )
         }
         throw new Error('Empty ok error while fetching Posts')
       })
