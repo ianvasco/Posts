@@ -1,7 +1,11 @@
 import React, {useEffect} from 'react'
 import {View, Text, Icon} from 'native-base'
 
-type PostStatus = 'starred' | 'new' | 'regular'
+export enum PostStatus {
+  starred,
+  new,
+  regular,
+}
 interface IProps {
   description: string
   status: PostStatus
@@ -10,7 +14,7 @@ interface IProps {
 const CustomRow = ({description, status}: IProps) => {
   const renderStatusIcon = () => {
     switch (status) {
-      case 'new':
+      case PostStatus.new:
         return (
           <Icon
             name="circle"
@@ -18,7 +22,7 @@ const CustomRow = ({description, status}: IProps) => {
             style={{margin: 10, color: '#19c0e6', fontSize: 20}}
           />
         )
-      case 'starred':
+      case PostStatus.starred:
         return (
           <Icon
             name="star"

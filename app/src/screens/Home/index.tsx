@@ -1,12 +1,6 @@
 import React from 'react'
 import {View, Text, Icon, Button} from 'native-base'
-import CustomRow from '../../components/CustomRow'
-
-type PostStatus = 'starred' | 'new' | 'regular'
-interface IProps {
-  title: string
-  status: PostStatus
-}
+import PostPreview, {PostStatus} from '../../components/PostPreview'
 
 const Home = () => {
   return (
@@ -16,16 +10,16 @@ const Home = () => {
           flex: 1,
           backgroundColor: 'white',
         }}>
-        <CustomRow
-          status="new"
+        <PostPreview
+          status={PostStatus.new}
           description="et iusto sed quo iure\nvoluptatem occaecati omnis eligendi aut ad\nvoluptatem doloribus vel accusantium quis pariatur\nmolestiae porro eius odio et labore et velit aut"
         />
-        <CustomRow
-          status="starred"
+        <PostPreview
+          status={PostStatus.starred}
           description="et iusto sed quo iure\nvoluptatem occaecati omnis eligendi aut ad\nvoluptatem doloribus vel accusantium quis pariatur\nmolestiae porro eius odio et labore et velit aut"
         />
-        <CustomRow
-          status="regular"
+        <PostPreview
+          status={PostStatus.regular}
           description="et iusto sed quo iure\nvoluptatem occaecati omnis eligendi aut ad\nvoluptatem doloribus vel accusantium quis pariatur\nmolestiae porro eius odio et labore et velit aut"
         />
       </View>
