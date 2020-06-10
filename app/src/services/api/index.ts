@@ -19,6 +19,14 @@ export interface IUser {
   website: string
 }
 
+export interface IComment {
+  id: number
+  postId: number
+  name: string
+  email: string
+  body: string
+}
+
 export default class ApiService {
   static readonly BASE_URL = 'https://jsonplaceholder.typicode.com'
 
@@ -49,10 +57,27 @@ export default class ApiService {
         if (data && data.length !== 0) {
           return data[0]
         }
-        throw new Error('Empty ok error while fetching User')
+        throw new Error(`Empty ok error while fetching User ${userId}`)
       })
       .catch(() => {
-        throw new Error('Could not fetch User')
+        throw new Error(`Could not fetch User ${userId}`)
+      })
+  }
+
+  static getComments: (postId: number) => Promise<IComment[]> = (postId) => {
+    return axios
+      .get(`${ApiService.BASE_URL}/comments?postId=${postId}`)
+      .then((res: AxiosResponse<IComment[]>) => {
+        const {data} = res
+        if (data && data.length !== 0) {
+          return data
+        }
+        throw new Error(
+          `Empty ok error while fetching Post comments for ${postId}`,
+        )
+      })
+      .catch(() => {
+        throw new Error(`Could not fetch Post comments for ${postId}`)
       })
   }
 }
