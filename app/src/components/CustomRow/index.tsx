@@ -1,29 +1,64 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import {View, Text, Icon} from 'native-base'
 
 type PostStatus = 'starred' | 'new' | 'regular'
 interface IProps {
-  title: string
+  description: string
   status: PostStatus
 }
 
-const CustomRow = () => {
+const CustomRow = ({description, status}: IProps) => {
+  const renderStatusIcon = () => {
+    switch (status) {
+      case 'new':
+        return (
+          <Icon
+            name="circle"
+            type="FontAwesome"
+            style={{margin: 10, color: '#19c0e6', fontSize: 20}}
+          />
+        )
+      case 'starred':
+        return (
+          <Icon
+            name="star"
+            type="FontAwesome"
+            style={{margin: 10, color: '#ffec00', fontSize: 20}}
+          />
+        )
+      default:
+        return <View style={{margin: 10, width: 20}} />
+    }
+  }
+
   return (
     <View
       style={{
-        flex: 1,
-        justifyContent: 'space-between',
         alignContent: 'center',
         alignItems: 'center',
         flexDirection: 'row',
+        marginHorizontal: 10,
       }}>
-      <Icon
-        name="circle"
-        type="FontAwesome"
-        color="blue"
-        style={{margin: 10}}
-      />
-      <Text>holi</Text>
+      {renderStatusIcon()}
+      <View
+        style={{
+          borderBottomColor: 'grey',
+          borderBottomWidth: 0.5,
+          flex: 1,
+          paddingHorizontal: 10,
+          flexDirection: 'row',
+          alignItems: 'center',
+        }}>
+        <Text style={{paddingVertical: 5, marginRight: 25}}>{description}</Text>
+        <Icon
+          name="chevron-right"
+          type="FontAwesome"
+          style={{
+            fontSize: 20,
+            color: 'grey',
+          }}
+        />
+      </View>
     </View>
   )
 }
