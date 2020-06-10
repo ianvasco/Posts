@@ -43,14 +43,14 @@ const CustomRow = ({description, status}: IProps) => {
   ) => {
     const trans = dragX.interpolate({
       inputRange: [0, 50, 100, 101],
-      outputRange: [-20, 0, 0, 1],
+      outputRange: [-70, -20, 0, 1],
     })
     return (
       <Button
         style={{
           backgroundColor: 'red',
           height: '100%',
-          width: Dimensions.get('window').width * 0.4,
+          maxWidth: Dimensions.get('window').width * 0.3,
         }}
         onPress={() => {}}>
         <Animated.View
