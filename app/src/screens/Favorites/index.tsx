@@ -4,7 +4,6 @@ import {View, Text, Icon} from 'native-base'
 type PostStatus = 'starred' | 'new' | 'regular'
 interface IProps {
   title: string
-  status: PostStatus
 }
 
 const CustomRow = () => {
@@ -17,13 +16,7 @@ const CustomRow = () => {
         alignItems: 'center',
         flexDirection: 'row',
       }}>
-      <Icon
-        name="circle"
-        type="FontAwesome"
-        color="blue"
-        style={{margin: 10}}
-      />
-      <Text>holi</Text>
+      <Text>Favorites</Text>
     </View>
   )
 }
