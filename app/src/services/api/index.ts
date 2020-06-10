@@ -1,25 +1,26 @@
 import {PostStatus} from '../../components/PostPreview'
 import axios, {AxiosResponse} from 'axios'
 
-interface PostsResponse {
+interface IPostsResponse {
   userId: number
   id: number
-  title: number
-  body: number
+  title: string
+  body: string
 }
 
-interface Posts extends PostsResponse {
+export interface IPosts extends IPostsResponse {
   status: PostStatus
 }
 
 export default class ApiService {
-  static readonly BASE_URL = 'https://jsonplaceholder.typicode.com/'
+  static readonly BASE_URL = 'https://jsonplaceholder.typicode.com'
 
-  static getPosts: () => Promise<Posts[]> = () => {
+  static getPosts: () => Promise<IPosts[]> = () => {
     return axios
       .get(`${ApiService.BASE_URL}/posts`)
-      .then((res: AxiosResponse<PostsResponse[]>) => {
+      .then((res: AxiosResponse<IPostsResponse[]>) => {
         const {data} = res
+        console.log(res)
         if (data && data.length !== 0) {
           return data.map((post, index) => {
             if (index < 20) return {...post, status: PostStatus.new}
@@ -28,7 +29,8 @@ export default class ApiService {
         }
         throw new Error('Empty ok error while fetching Posts')
       })
-      .catch(() => {
+      .catch((e) => {
+        console.log(e)
         throw new Error('Could not fetch Posts')
       })
   }

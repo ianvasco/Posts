@@ -53,7 +53,9 @@ const CustomRow = ({description, status}: IProps) => {
           flexDirection: 'row',
           alignItems: 'center',
         }}>
-        <Text style={{paddingVertical: 5, marginRight: 25}}>{description}</Text>
+        <Text style={{paddingVertical: 5, marginRight: 25, flex: 1}}>
+          {description}
+        </Text>
         <Icon
           name="chevron-right"
           type="FontAwesome"

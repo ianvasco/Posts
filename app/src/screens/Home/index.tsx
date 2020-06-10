@@ -1,8 +1,18 @@
-import React from 'react'
-import {View, Text, Icon, Button} from 'native-base'
+import React, {useEffect, useState} from 'react'
+import {FlatList, TouchableOpacity} from 'react-native'
+import {View, Text, Button} from 'native-base'
 import PostPreview, {PostStatus} from '../../components/PostPreview'
+import ApiService, {IPosts} from '../../services/api'
 
 const Home = () => {
+  const [posts, setPosts] = useState<IPosts[]>()
+
+  useEffect(() => {
+    ApiService.getPosts()
+      .then(setPosts)
+      .catch((e) => console.warn(e))
+  }, [])
+
   return (
     <>
       <View
@@ -10,17 +20,14 @@ const Home = () => {
           flex: 1,
           backgroundColor: 'white',
         }}>
-        <PostPreview
-          status={PostStatus.new}
-          description="et iusto sed quo iure\nvoluptatem occaecati omnis eligendi aut ad\nvoluptatem doloribus vel accusantium quis pariatur\nmolestiae porro eius odio et labore et velit aut"
-        />
-        <PostPreview
-          status={PostStatus.starred}
-          description="et iusto sed quo iure\nvoluptatem occaecati omnis eligendi aut ad\nvoluptatem doloribus vel accusantium quis pariatur\nmolestiae porro eius odio et labore et velit aut"
-        />
-        <PostPreview
-          status={PostStatus.regular}
-          description="et iusto sed quo iure\nvoluptatem occaecati omnis eligendi aut ad\nvoluptatem doloribus vel accusantium quis pariatur\nmolestiae porro eius odio et labore et velit aut"
+        <FlatList
+          data={posts}
+          keyExtractor={(item) => `${item.id}`}
+          renderItem={({item}) => (
+            <TouchableOpacity>
+              <PostPreview status={item.status} description={item.body} />
+            </TouchableOpacity>
+          )}
         />
       </View>
       <Button full dark>
