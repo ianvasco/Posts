@@ -22,7 +22,11 @@ const AppContainer = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Tabs" component={BottomTabs} />
+        <Stack.Screen
+          name="Posts"
+          component={BottomTabs}
+          options={{headerShown: true}}
+        />
         <Stack.Screen name="Post" component={PostScreen} />
       </Stack.Navigator>
     </NavigationContainer>
