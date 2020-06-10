@@ -1,5 +1,7 @@
-import React, {useEffect} from 'react'
-import {View, Text, Icon} from 'native-base'
+import React from 'react'
+import {Animated, Dimensions} from 'react-native'
+import {View, Text, Icon, Button} from 'native-base'
+import Swipeable from 'react-native-gesture-handler/Swipeable'
 
 export enum PostStatus {
   starred,
@@ -35,43 +37,82 @@ const CustomRow = ({description, status}: IProps) => {
     }
   }
 
+  const renderLeftActions = (
+    progress: Animated.AnimatedInterpolation,
+    dragX: Animated.AnimatedInterpolation,
+  ) => {
+    const trans = dragX.interpolate({
+      inputRange: [0, 50, 100, 101],
+      outputRange: [-20, 0, 0, 1],
+    })
+    return (
+      <Button
+        style={{
+          backgroundColor: 'red',
+          height: '100%',
+          width: Dimensions.get('window').width * 0.4,
+        }}
+        onPress={() => {}}>
+        <Animated.View
+          style={[
+            {
+              color: 'white',
+              fontSize: 16,
+              backgroundColor: 'transparent',
+              padding: 10,
+              transform: [{translateX: trans}],
+            },
+          ]}>
+          <Icon
+            type="FontAwesome"
+            name="trash"
+            color="white"
+            style={{fontSize: 30}}
+          />
+        </Animated.View>
+      </Button>
+    )
+  }
+
   return (
-    <View
-      style={{
-        alignContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'row',
-        marginHorizontal: 10,
-      }}>
-      {renderStatusIcon()}
+    <Swipeable renderLeftActions={renderLeftActions}>
       <View
         style={{
-          borderBottomColor: 'grey',
-          borderBottomWidth: 0.5,
-          flex: 1,
-          paddingHorizontal: 10,
-          flexDirection: 'row',
+          alignContent: 'center',
           alignItems: 'center',
+          flexDirection: 'row',
+          marginHorizontal: 10,
         }}>
-        <Text
+        {renderStatusIcon()}
+        <View
           style={{
-            paddingVertical: 5,
-            marginRight: 25,
+            borderBottomColor: 'grey',
+            borderBottomWidth: 0.5,
             flex: 1,
-            textAlign: 'justify',
+            paddingHorizontal: 10,
+            flexDirection: 'row',
+            alignItems: 'center',
           }}>
-          {description}
-        </Text>
-        <Icon
-          name="chevron-right"
-          type="FontAwesome"
-          style={{
-            fontSize: 20,
-            color: 'grey',
-          }}
-        />
+          <Text
+            style={{
+              paddingVertical: 5,
+              marginRight: 25,
+              flex: 1,
+              textAlign: 'justify',
+            }}>
+            {description}
+          </Text>
+          <Icon
+            name="chevron-right"
+            type="FontAwesome"
+            style={{
+              fontSize: 20,
+              color: 'grey',
+            }}
+          />
+        </View>
       </View>
-    </View>
+    </Swipeable>
   )
 }
 

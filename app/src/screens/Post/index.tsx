@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {View, Text, Icon} from 'native-base'
+import {View, Text} from 'native-base'
 import {RouteProp} from '@react-navigation/native'
 import {RootStackParamList} from 'src/routes'
 import {StackNavigationProp} from '@react-navigation/stack'
