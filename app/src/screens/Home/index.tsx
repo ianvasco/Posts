@@ -41,7 +41,13 @@ const Home = ({navigation}: IProps) => {
           keyExtractor={(item) => `${item.id}`}
           renderItem={({item, index}) => (
             <TouchableOpacity onPress={() => handleOnPress(index, item)}>
-              <PostPreview status={item.status} description={item.body} />
+              <PostPreview
+                status={item.status}
+                description={item.body}
+                removePost={() =>
+                  setPosts((prev) => prev?.filter((item, i) => i !== index))
+                }
+              />
             </TouchableOpacity>
           )}
         />

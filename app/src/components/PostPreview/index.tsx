@@ -1,7 +1,8 @@
-import React from 'react'
+import React, {Dispatch, SetStateAction} from 'react'
 import {Animated, Dimensions} from 'react-native'
 import {View, Text, Icon, Button} from 'native-base'
 import Swipeable from 'react-native-gesture-handler/Swipeable'
+import {IPosts} from 'src/services/api'
 
 export enum PostStatus {
   starred,
@@ -11,9 +12,10 @@ export enum PostStatus {
 interface IProps {
   description: string
   status: PostStatus
+  removePost: () => void
 }
 
-const CustomRow = ({description, status}: IProps) => {
+const CustomRow = ({description, status, removePost}: IProps) => {
   const renderStatusIcon = () => {
     switch (status) {
       case PostStatus.new:
@@ -52,7 +54,7 @@ const CustomRow = ({description, status}: IProps) => {
           height: '100%',
           maxWidth: Dimensions.get('window').width * 0.3,
         }}
-        onPress={() => {}}>
+        onPress={removePost}>
         <Animated.View
           style={[
             {
