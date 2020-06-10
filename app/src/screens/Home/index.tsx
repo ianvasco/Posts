@@ -13,6 +13,15 @@ const Home = () => {
       .catch((e) => console.warn(e))
   }, [])
 
+  const handleOnPress = (postIndex: number) => {
+    setPosts((prev) =>
+      prev?.map((post, index) => {
+        if (index === postIndex) return {...post, status: PostStatus.regular}
+        return post
+      }),
+    )
+  }
+
   return (
     <>
       <View
@@ -23,8 +32,8 @@ const Home = () => {
         <FlatList
           data={posts}
           keyExtractor={(item) => `${item.id}`}
-          renderItem={({item}) => (
-            <TouchableOpacity>
+          renderItem={({item, index}) => (
+            <TouchableOpacity onPress={() => handleOnPress(index)}>
               <PostPreview status={item.status} description={item.body} />
             </TouchableOpacity>
           )}
