@@ -7,9 +7,15 @@ import FavoritesScreen from '../screens/Favorites'
 import {NavigationContainer} from '@react-navigation/native'
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
 import {createStackNavigator} from '@react-navigation/stack'
+import {IPosts} from 'src/services/api'
+
+export type RootStackParamList = {
+  Posts: undefined
+  Post: {post: IPosts} | undefined
+}
 
 const Tab = createBottomTabNavigator()
-const Stack = createStackNavigator()
+const Stack = createStackNavigator<RootStackParamList>()
 
 const BottomTabs = () => (
   <Tab.Navigator>

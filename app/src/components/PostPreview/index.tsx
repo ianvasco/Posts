@@ -53,7 +53,13 @@ const CustomRow = ({description, status}: IProps) => {
           flexDirection: 'row',
           alignItems: 'center',
         }}>
-        <Text style={{paddingVertical: 5, marginRight: 25, flex: 1}}>
+        <Text
+          style={{
+            paddingVertical: 5,
+            marginRight: 25,
+            flex: 1,
+            textAlign: 'justify',
+          }}>
           {description}
         </Text>
         <Icon

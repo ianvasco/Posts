@@ -3,8 +3,14 @@ import {FlatList, TouchableOpacity} from 'react-native'
 import {View, Text, Button} from 'native-base'
 import PostPreview, {PostStatus} from '../../components/PostPreview'
 import ApiService, {IPosts} from '../../services/api'
+import {RootStackParamList} from '../../routes'
+import {StackNavigationProp} from '@react-navigation/stack'
 
-const Home = () => {
+interface IProps {
+  navigation: StackNavigationProp<any>
+}
+
+const Home = ({navigation}: IProps) => {
   const [posts, setPosts] = useState<IPosts[]>()
 
   useEffect(() => {
@@ -13,13 +19,14 @@ const Home = () => {
       .catch((e) => console.warn(e))
   }, [])
 
-  const handleOnPress = (postIndex: number) => {
+  const handleOnPress = (postIndex: number, item: IPosts) => {
     setPosts((prev) =>
       prev?.map((post, index) => {
         if (index === postIndex) return {...post, status: PostStatus.regular}
         return post
       }),
     )
+    navigation.navigate('Post', {post: item})
   }
 
   return (
@@ -33,7 +40,7 @@ const Home = () => {
           data={posts}
           keyExtractor={(item) => `${item.id}`}
           renderItem={({item, index}) => (
-            <TouchableOpacity onPress={() => handleOnPress(index)}>
+            <TouchableOpacity onPress={() => handleOnPress(index, item)}>
               <PostPreview status={item.status} description={item.body} />
             </TouchableOpacity>
           )}

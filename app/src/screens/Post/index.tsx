@@ -1,30 +1,50 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import {View, Text, Icon} from 'native-base'
+import {RouteProp} from '@react-navigation/native'
+import {RootStackParamList} from 'src/routes'
+import {StackNavigationProp} from '@react-navigation/stack'
+import {IPosts} from 'src/services/api'
 
-type PostStatus = 'starred' | 'new' | 'regular'
+type PostScreenRouteProp = RouteProp<RootStackParamList, 'Post'>
+
 interface IProps {
-  title: string
+  navigation: StackNavigationProp<any>
+  route: PostScreenRouteProp
 }
 
-const CustomRow = () => {
+const Post = (props: IProps) => {
+  const [post, setPost] = useState<IPosts>()
+
+  useEffect(() => {
+    const {params} = props.route
+    console.log(props, '0')
+    if (params && params.post) {
+      setPost(params.post)
+    }
+  }, [props.route])
+
   return (
     <View
       style={{
         flex: 1,
-        justifyContent: 'space-between',
-        alignContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'row',
+        backgroundColor: 'white',
+        margin: 10,
       }}>
+      <View>
+        <Text style={{fontSize: 20, fontWeight: '700', marginBottom: 5}}>
+          Description
+        </Text>
+        <Text style={{textAlign: 'justify'}}>{post?.body}</Text>
+      </View>
       <Icon
         name="circle"
         type="FontAwesome"
         color="blue"
         style={{margin: 10}}
       />
-      <Text>holi</Text>
+      <Text>Posts</Text>
     </View>
   )
 }
 
-export default CustomRow
+export default Post
