@@ -12,6 +12,13 @@ export interface IPosts extends IPostsResponse {
   status: PostStatus
 }
 
+export interface IUser {
+  name: string
+  email: string
+  phone: string
+  website: string
+}
+
 export default class ApiService {
   static readonly BASE_URL = 'https://jsonplaceholder.typicode.com'
 
@@ -29,9 +36,23 @@ export default class ApiService {
         }
         throw new Error('Empty ok error while fetching Posts')
       })
-      .catch((e) => {
-        console.log(e)
+      .catch(() => {
         throw new Error('Could not fetch Posts')
+      })
+  }
+
+  static getUser: (userId: number) => Promise<IUser> = (userId) => {
+    return axios
+      .get(`${ApiService.BASE_URL}/users?id=${userId}`)
+      .then((res: AxiosResponse<IUser[]>) => {
+        const {data} = res
+        if (data && data.length !== 0) {
+          return data[0]
+        }
+        throw new Error('Empty ok error while fetching User')
+      })
+      .catch(() => {
+        throw new Error('Could not fetch User')
       })
   }
 }
