@@ -9,7 +9,7 @@ type RightIconHeader = 'refresh' | 'favorite'
 interface CustomHeaderProps {
   enableBack: boolean
   title: string
-  navigation: StackNavigationProp<any>
+  navigation: StackNavigationProp<any, any>
   rightIconProps?: {
     type: RightIconHeader
     buttonAction: () => void
@@ -51,6 +51,9 @@ const CustomHeader = ({
           transparent
           onPress={rightIconProps.buttonAction}>
           <Icon
+            testID={`custom-right-icon-${
+              rightIconProps.type === 'favorite' ? 'star' : 'refresh'
+            }`}
             style={{
               color: rightIconProps.type === 'favorite' ? '#ffec00' : 'black',
               fontSize: 20,

@@ -19,9 +19,23 @@ const CustomRow = ({description, status, removePost}: IProps) => {
   const renderStatusIcon = () => {
     switch (status) {
       case PostStatus.new:
-        return <Icon name="circle" type="FontAwesome" style={styles.dotIcon} />
+        return (
+          <Icon
+            testID="blueDot-icon"
+            name="circle"
+            type="FontAwesome"
+            style={styles.dotIcon}
+          />
+        )
       case PostStatus.starred:
-        return <Icon name="star" type="FontAwesome" style={styles.starIcon} />
+        return (
+          <Icon
+            testID="star-icon"
+            name="star"
+            type="FontAwesome"
+            style={styles.starIcon}
+          />
+        )
       default:
         return <View style={styles.emptyIconView} />
     }
@@ -65,7 +79,9 @@ const CustomRow = ({description, status, removePost}: IProps) => {
       <View style={styles.mainContainer}>
         {renderStatusIcon()}
         <View style={styles.postContainer}>
-          <Text style={styles.postText}>{description}</Text>
+          <Text testID="post-preview-description" style={styles.postText}>
+            {description}
+          </Text>
           <Icon
             name="chevron-right"
             type="FontAwesome"
