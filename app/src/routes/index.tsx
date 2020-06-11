@@ -31,9 +31,13 @@ const AppContainer = () => {
         <Stack.Screen
           name="Posts"
           component={BottomTabs}
-          options={{headerShown: true}}
+          options={{headerShown: false}}
         />
-        <Stack.Screen name="Post" component={PostScreen} />
+        <Stack.Screen
+          name="Post"
+          component={PostScreen}
+          options={{headerShown: false}}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   )

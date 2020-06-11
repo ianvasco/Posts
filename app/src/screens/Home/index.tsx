@@ -52,7 +52,7 @@ const Home = ({navigation}: IProps) => {
           )}
         />
       </View>
-      <Button full dark>
+      <Button full danger>
         <Text>Delete All</Text>
       </Button>
     </>
