@@ -6,7 +6,7 @@ import {StackNavigationProp} from '@react-navigation/stack'
 import Header from '../../components/Header'
 import {PostStatus} from '../../components/PostPreview'
 
-import ApiService, {IPosts, IUser, IComment} from '../../services/api'
+import {IPosts, IUser, IComment, ApiService} from '../../services/api'
 import {RootStackParamList} from '../../routes'
 
 import {useStore, Actions} from '../../store'
@@ -72,11 +72,13 @@ const Post = (props: IProps) => {
         <View style={styles.container}>
           <View style={{marginBottom: 20}}>
             <Text style={styles.title}>Description</Text>
-            <Text style={{textAlign: 'justify'}}>{post?.body}</Text>
+            <Text testID="post-description" style={{textAlign: 'justify'}}>
+              {post?.body}
+            </Text>
           </View>
           <View>
             <Text style={styles.title}>User</Text>
-            <Text>Name: {user?.name}</Text>
+            <Text testID="user-name">Name: {user?.name}</Text>
             <Text>Email: {user?.email}</Text>
             <Text>Phone: {user?.phone}</Text>
             <Text>Website: {user?.website}</Text>
@@ -100,7 +102,9 @@ const Post = (props: IProps) => {
                     //sets color in between comments
                     backgroundColor: index % 2 ? '#d1d3d2' : 'white',
                   }}>
-                  <Text style={{textAlign: 'justify'}}>{comment.body}</Text>
+                  <Text testID="comment-body" style={{textAlign: 'justify'}}>
+                    {comment.body}
+                  </Text>
                 </View>
               ))
             ) : (

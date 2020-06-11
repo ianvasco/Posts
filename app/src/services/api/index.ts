@@ -27,7 +27,7 @@ export interface IComment {
   body: string
 }
 
-export default class ApiService {
+export class ApiService {
   static readonly BASE_URL = 'https://jsonplaceholder.typicode.com'
 
   static getPosts: () => Promise<IPosts[]> = () => {

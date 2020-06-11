@@ -1,23 +1,13 @@
 import React from 'react'
 import {render} from 'react-native-testing-library'
-import {useStore, posts} from '../../specs/common'
-import {IPosts} from '../../services/api'
-import {PostStatus} from '../../components/PostPreview'
+import {storeMockFactory} from '../../specs/common'
 
 describe('Favorites', () => {
-  const starredPost: IPosts = {
-    id: 90,
-    userId: 100,
-    body: 'something that should be the body',
-    title: 'starred',
-    status: PostStatus.starred,
-  }
-
   const props = {
     navigation: {},
   }
   it('renders correctly with one favorites', () => {
-    jest.doMock('../../store', useStore())
+    jest.doMock('../../store', storeMockFactory())
 
     const Favorites = require('./').default
     const wrapper = render(<Favorites {...props} />)

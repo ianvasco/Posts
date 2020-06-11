@@ -1,4 +1,4 @@
-import {IPosts} from '../../services/api'
+import {IPosts, IUser, IComment} from '../../services/api'
 import {PostStatus} from '../../components/PostPreview'
 
 export const posts: IPosts[] = [
@@ -53,7 +53,7 @@ export const posts: IPosts[] = [
   },
 ]
 
-export const useStore = (overrides?: {
+export const storeMockFactory = (overrides?: {
   useStore?: () => {postsState: IPosts[]; dispatch: () => void}
 }) => () => ({
   useStore: () => ({
@@ -61,4 +61,17 @@ export const useStore = (overrides?: {
     dispatch: () => {},
   }),
   ...overrides,
+})
+
+export const apiServiceMockFactory = (overrides?: {
+  getPosts?: () => Promise<IPosts[]>
+  getUser?: () => Promise<IUser>
+  getComments?: () => Promise<IComment[]>
+}) => () => ({
+  ApiService: {
+    getPosts: () => Promise.resolve(posts),
+    getUser: () => Promise.resolve(),
+    getComments: () => Promise.resolve(),
+    ...overrides,
+  },
 })

@@ -5,7 +5,7 @@ import PostPreview, {PostStatus} from '../../components/PostPreview'
 import Header from '../../components/Header'
 import {StackNavigationProp} from '@react-navigation/stack'
 
-import ApiService, {IPosts} from '../../services/api'
+import {IPosts, ApiService} from '../../services/api'
 import {useStore, Actions} from '../../store'
 
 import styles from './styles'
@@ -19,8 +19,10 @@ const Home = ({navigation}: IProps) => {
   const fadeAnim = useRef(new Animated.Value(1)).current
 
   const getPosts = () => {
+    console.log(ApiService)
     ApiService.getPosts()
       .then((psts) => {
+        console.log(psts, 'home', postsState)
         dispatch({type: Actions.updatePosts, payload: psts})
       })
       .catch((e) => console.warn(e))
@@ -77,6 +79,7 @@ const Home = ({navigation}: IProps) => {
             },
           ]}>
           <FlatList
+            testID="posts-list"
             data={postsState}
             keyExtractor={(item) => `${item.id}`}
             renderItem={({item, index}) => (
