@@ -1,7 +1,7 @@
 import {PostStatus} from '../../components/PostPreview'
 import axios, {AxiosResponse} from 'axios'
 
-interface IPostsResponse {
+export interface IPostsResponse {
   userId: number
   id: number
   title: string
