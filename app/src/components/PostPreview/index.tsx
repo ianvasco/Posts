@@ -2,7 +2,6 @@ import React, {Dispatch, SetStateAction} from 'react'
 import {Animated, Dimensions} from 'react-native'
 import {View, Text, Icon, Button} from 'native-base'
 import Swipeable from 'react-native-gesture-handler/Swipeable'
-import {IPosts} from 'src/services/api'
 
 export enum PostStatus {
   starred,
@@ -13,6 +12,7 @@ interface IProps {
   description: string
   status: PostStatus
   removePost: () => void
+  onFavorite: () => void
 }
 
 const CustomRow = ({description, status, removePost}: IProps) => {

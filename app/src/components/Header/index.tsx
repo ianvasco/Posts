@@ -4,17 +4,24 @@ import {Body, Button, Header, Icon, Left, Right, Title, View} from 'native-base'
 import styles from './styles'
 import {StackNavigationProp} from '@react-navigation/stack'
 
-interface CustomHeaderProps<S> {
+type RightIconHeader = 'refresh' | 'favorite'
+
+interface CustomHeaderProps {
   enableBack: boolean
   title: string
   navigation: StackNavigationProp<any>
+  rightIconProps?: {
+    type: RightIconHeader
+    buttonAction: () => void
+  }
 }
 
 const CustomHeader = ({
   enableBack,
   title,
   navigation,
-}: CustomHeaderProps<{}>) => (
+  rightIconProps,
+}: CustomHeaderProps) => (
   <Header style={styles.header}>
     {enableBack ? (
       <Left style={styles.flex}>
@@ -23,7 +30,7 @@ const CustomHeader = ({
           transparent
           onPress={() => navigation.goBack()}>
           <Icon
-            style={{color: 'black'}}
+            style={{color: 'black', fontSize: 20}}
             name="chevron-left"
             type="FontAwesome"
           />
@@ -37,7 +44,25 @@ const CustomHeader = ({
         {title}
       </Title>
     </Body>
-    <Right style={styles.flex} />
+    <Right style={styles.flex}>
+      {rightIconProps ? (
+        <Button
+          testID="header-custom-right-button"
+          transparent
+          onPress={() => navigation.goBack()}>
+          <Icon
+            style={{
+              color: rightIconProps.type === 'favorite' ? '#ffec00' : 'black',
+              fontSize: 20,
+            }}
+            name={rightIconProps.type === 'favorite' ? 'star' : 'refresh'}
+            type="FontAwesome"
+          />
+        </Button>
+      ) : (
+        <View />
+      )}
+    </Right>
   </Header>
 )
 

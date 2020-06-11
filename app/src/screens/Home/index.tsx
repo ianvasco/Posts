@@ -5,27 +5,35 @@ import PostPreview, {PostStatus} from '../../components/PostPreview'
 import ApiService, {IPosts} from '../../services/api'
 import {RootStackParamList} from '../../routes'
 import {StackNavigationProp} from '@react-navigation/stack'
+import {useStore, Actions} from '../../store'
 
 interface IProps {
   navigation: StackNavigationProp<any>
 }
 
 const Home = ({navigation}: IProps) => {
-  const [posts, setPosts] = useState<IPosts[]>()
+  const {postsState, dispatch} = useStore()
+
+  const getPosts = () => {
+    ApiService.getPosts()
+      .then((psts) => {
+        dispatch({type: Actions.updatePosts, payload: psts})
+      })
+      .catch((e) => console.warn(e))
+  }
 
   useEffect(() => {
-    ApiService.getPosts()
-      .then(setPosts)
-      .catch((e) => console.warn(e))
+    getPosts()
   }, [])
 
   const handleOnPress = (postIndex: number, item: IPosts) => {
-    setPosts((prev) =>
-      prev?.map((post, index) => {
+    dispatch({
+      type: Actions.updatePosts,
+      payload: postsState.map((post, index) => {
         if (index === postIndex) return {...post, status: PostStatus.regular}
         return post
       }),
-    )
+    })
     navigation.navigate('Post', {post: item})
   }
 
@@ -37,15 +45,19 @@ const Home = ({navigation}: IProps) => {
           backgroundColor: 'white',
         }}>
         <FlatList
-          data={posts}
+          data={postsState}
           keyExtractor={(item) => `${item.id}`}
           renderItem={({item, index}) => (
             <TouchableOpacity onPress={() => handleOnPress(index, item)}>
               <PostPreview
                 status={item.status}
+                onFavorite={() => {}}
                 description={item.body}
                 removePost={() =>
-                  setPosts((prev) => prev?.filter((item, i) => i !== index))
+                  dispatch({
+                    type: Actions.updatePosts,
+                    payload: postsState.filter((item, i) => i !== index),
+                  })
                 }
               />
             </TouchableOpacity>

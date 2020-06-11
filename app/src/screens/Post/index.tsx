@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from 'react'
 import {View, Text, Spinner} from 'native-base'
+import {ScrollView} from 'react-native'
 import {RouteProp} from '@react-navigation/native'
 import {RootStackParamList} from 'src/routes'
 import {StackNavigationProp} from '@react-navigation/stack'
+import Header from '../../components/Header'
 import ApiService, {IPosts, IUser, IComment} from '../../services/api'
-import {FlatList, ScrollView} from 'react-native-gesture-handler'
 import {SafeAreaView} from 'react-native-safe-area-context'
 
 type PostScreenRouteProp = RouteProp<RootStackParamList, 'Post'>
@@ -12,6 +13,7 @@ type PostScreenRouteProp = RouteProp<RootStackParamList, 'Post'>
 interface IProps {
   navigation: StackNavigationProp<any>
   route: PostScreenRouteProp
+  onFavorite: () => void
 }
 
 const Post = (props: IProps) => {
@@ -49,6 +51,12 @@ const Post = (props: IProps) => {
         flex: 1,
         backgroundColor: 'white',
       }}>
+      <Header
+        title="Posts"
+        navigation={props.navigation}
+        enableBack={true}
+        rightIconProps={{type: 'favorite', buttonAction: props.onFavorite}}
+      />
       <ScrollView>
         <View style={{flex: 1, margin: 16}}>
           <View style={{marginBottom: 20}}>
