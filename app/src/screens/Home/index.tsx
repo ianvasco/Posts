@@ -32,7 +32,8 @@ const Home = ({navigation}: IProps) => {
     dispatch({
       type: Actions.updatePosts,
       payload: postsState.map((post, index) => {
-        if (index === postIndex) return {...post, status: PostStatus.regular}
+        if (index === postIndex && post.status !== PostStatus.starred)
+          return {...post, status: PostStatus.regular}
         return post
       }),
     })
@@ -59,7 +60,6 @@ const Home = ({navigation}: IProps) => {
             <TouchableOpacity onPress={() => handleOnPress(index, item)}>
               <PostPreview
                 status={item.status}
-                onFavorite={() => {}}
                 description={item.body}
                 removePost={() =>
                   dispatch({

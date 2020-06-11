@@ -11,8 +11,7 @@ export enum PostStatus {
 interface IProps {
   description: string
   status: PostStatus
-  removePost: () => void
-  onFavorite: () => void
+  removePost?: () => void
 }
 
 const CustomRow = ({description, status, removePost}: IProps) => {
