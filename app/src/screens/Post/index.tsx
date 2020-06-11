@@ -1,14 +1,16 @@
 import React, {useEffect, useState} from 'react'
+import {ScrollView, SafeAreaView} from 'react-native'
 import {View, Text, Spinner} from 'native-base'
-import {ScrollView} from 'react-native'
 import {RouteProp} from '@react-navigation/native'
-import {RootStackParamList} from '../../routes'
 import {StackNavigationProp} from '@react-navigation/stack'
 import Header from '../../components/Header'
-import ApiService, {IPosts, IUser, IComment} from '../../services/api'
-import {SafeAreaView} from 'react-native-safe-area-context'
-import {useStore, Actions} from '../../store'
 import {PostStatus} from '../../components/PostPreview'
+
+import ApiService, {IPosts, IUser, IComment} from '../../services/api'
+import {RootStackParamList} from '../../routes'
+
+import {useStore, Actions} from '../../store'
+import styles from './styles'
 
 type PostScreenRouteProp = RouteProp<RootStackParamList, 'Post'>
 
@@ -48,11 +50,7 @@ const Post = (props: IProps) => {
   }, [post])
 
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        backgroundColor: 'white',
-      }}>
+    <SafeAreaView style={styles.mainContainer}>
       <Header
         title="Posts"
         navigation={props.navigation}
@@ -71,17 +69,13 @@ const Post = (props: IProps) => {
         }}
       />
       <ScrollView>
-        <View style={{flex: 1, margin: 16}}>
+        <View style={styles.container}>
           <View style={{marginBottom: 20}}>
-            <Text style={{fontSize: 20, fontWeight: '700', marginBottom: 5}}>
-              Description
-            </Text>
+            <Text style={styles.title}>Description</Text>
             <Text style={{textAlign: 'justify'}}>{post?.body}</Text>
           </View>
           <View>
-            <Text style={{fontSize: 20, fontWeight: '700', marginBottom: 5}}>
-              User
-            </Text>
+            <Text style={styles.title}>User</Text>
             <Text>Name: {user?.name}</Text>
             <Text>Email: {user?.email}</Text>
             <Text>Phone: {user?.phone}</Text>
@@ -90,9 +84,7 @@ const Post = (props: IProps) => {
           <View>
             <Text
               style={{
-                fontSize: 20,
-                fontWeight: '700',
-                marginBottom: 5,
+                ...styles.title,
                 marginTop: 20,
               }}>
               Comments
@@ -104,9 +96,8 @@ const Post = (props: IProps) => {
                 <View
                   key={`${index}`}
                   style={{
-                    margin: 5,
-                    borderBottomColor: 'grey',
-                    borderBottomWidth: 0.5,
+                    ...styles.commentContainer,
+                    //sets color in between comments
                     backgroundColor: index % 2 ? '#d1d3d2' : 'white',
                   }}>
                   <Text style={{textAlign: 'justify'}}>{comment.body}</Text>

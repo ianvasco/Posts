@@ -1,13 +1,14 @@
 import React, {useEffect, useRef} from 'react'
-import {FlatList, TouchableOpacity, Animated, View} from 'react-native'
+import {FlatList, TouchableOpacity, Animated, SafeAreaView} from 'react-native'
 import {Text, Button} from 'native-base'
 import PostPreview, {PostStatus} from '../../components/PostPreview'
 import Header from '../../components/Header'
-import ApiService, {IPosts} from '../../services/api'
-
 import {StackNavigationProp} from '@react-navigation/stack'
+
+import ApiService, {IPosts} from '../../services/api'
 import {useStore, Actions} from '../../store'
-import {SafeAreaView} from 'react-native-safe-area-context'
+
+import styles from './styles'
 
 interface IProps {
   navigation: StackNavigationProp<any>
@@ -56,11 +57,7 @@ const Home = ({navigation}: IProps) => {
 
   return (
     <>
-      <SafeAreaView
-        style={{
-          flex: 1,
-          backgroundColor: 'white',
-        }}>
+      <SafeAreaView style={styles.mainContainer}>
         <Header
           title="Posts"
           navigation={navigation}

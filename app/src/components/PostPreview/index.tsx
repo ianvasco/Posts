@@ -2,6 +2,7 @@ import React, {Dispatch, SetStateAction} from 'react'
 import {Animated, Dimensions} from 'react-native'
 import {View, Text, Icon, Button} from 'native-base'
 import Swipeable from 'react-native-gesture-handler/Swipeable'
+import styles from './styles'
 
 export enum PostStatus {
   starred,
@@ -18,23 +19,11 @@ const CustomRow = ({description, status, removePost}: IProps) => {
   const renderStatusIcon = () => {
     switch (status) {
       case PostStatus.new:
-        return (
-          <Icon
-            name="circle"
-            type="FontAwesome"
-            style={{margin: 10, color: '#19c0e6', fontSize: 20}}
-          />
-        )
+        return <Icon name="circle" type="FontAwesome" style={styles.dotIcon} />
       case PostStatus.starred:
-        return (
-          <Icon
-            name="star"
-            type="FontAwesome"
-            style={{margin: 10, color: '#ffec00', fontSize: 20}}
-          />
-        )
+        return <Icon name="star" type="FontAwesome" style={styles.starIcon} />
       default:
-        return <View style={{margin: 10, width: 20}} />
+        return <View style={styles.emptyIconView} />
     }
   }
 
@@ -49,18 +38,14 @@ const CustomRow = ({description, status, removePost}: IProps) => {
     return (
       <Button
         style={{
-          backgroundColor: 'red',
-          height: '100%',
+          ...styles.deleteButton,
           maxWidth: Dimensions.get('window').width * 0.3,
         }}
         onPress={removePost}>
         <Animated.View
           style={[
             {
-              color: 'white',
-              fontSize: 16,
-              backgroundColor: 'transparent',
-              padding: 10,
+              ...styles.deleteIconContainer,
               transform: [{translateX: trans}],
             },
           ]}>
@@ -77,32 +62,10 @@ const CustomRow = ({description, status, removePost}: IProps) => {
 
   return (
     <Swipeable renderLeftActions={renderLeftActions}>
-      <View
-        style={{
-          alignContent: 'center',
-          alignItems: 'center',
-          flexDirection: 'row',
-          marginHorizontal: 10,
-        }}>
+      <View style={styles.mainContainer}>
         {renderStatusIcon()}
-        <View
-          style={{
-            borderBottomColor: 'grey',
-            borderBottomWidth: 0.5,
-            flex: 1,
-            paddingHorizontal: 10,
-            flexDirection: 'row',
-            alignItems: 'center',
-          }}>
-          <Text
-            style={{
-              paddingVertical: 5,
-              marginRight: 25,
-              flex: 1,
-              textAlign: 'justify',
-            }}>
-            {description}
-          </Text>
+        <View style={styles.postContainer}>
+          <Text style={styles.postText}>{description}</Text>
           <Icon
             name="chevron-right"
             type="FontAwesome"

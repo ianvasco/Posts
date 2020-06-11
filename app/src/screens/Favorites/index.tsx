@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from 'react'
-import {FlatList, TouchableOpacity} from 'react-native'
-import {View, Text, Button} from 'native-base'
+import {FlatList, TouchableOpacity, SafeAreaView, Text} from 'react-native'
+
 import PostPreview, {PostStatus} from '../../components/PostPreview'
 import Header from '../../components/Header'
-import ApiService, {IPosts} from '../../services/api'
-import {RootStackParamList} from '../../routes'
 import {StackNavigationProp} from '@react-navigation/stack'
+
+import {IPosts} from '../../services/api'
 import {useStore, Actions} from '../../store'
-import {SafeAreaView} from 'react-native-safe-area-context'
+import styles from './styles'
 
 interface IProps {
   navigation: StackNavigationProp<any>
@@ -36,28 +36,22 @@ const Home = ({navigation}: IProps) => {
   }
 
   return (
-    <>
-      <SafeAreaView
-        style={{
-          flex: 1,
-          backgroundColor: 'white',
-        }}>
-        <Header title="Favorites" navigation={navigation} enableBack={false} />
-        {starredPosts && starredPosts?.length > 0 ? (
-          <FlatList
-            data={starredPosts}
-            keyExtractor={(item) => `${item.id}`}
-            renderItem={({item, index}) => (
-              <TouchableOpacity onPress={() => handleOnPress(index, item)}>
-                <PostPreview status={item.status} description={item.body} />
-              </TouchableOpacity>
-            )}
-          />
-        ) : (
-          <Text>There are no favorites</Text>
-        )}
-      </SafeAreaView>
-    </>
+    <SafeAreaView style={styles.mainContainer}>
+      <Header title="Favorites" navigation={navigation} enableBack={false} />
+      {starredPosts && starredPosts?.length > 0 ? (
+        <FlatList
+          data={starredPosts}
+          keyExtractor={(item) => `${item.id}`}
+          renderItem={({item, index}) => (
+            <TouchableOpacity onPress={() => handleOnPress(index, item)}>
+              <PostPreview status={item.status} description={item.body} />
+            </TouchableOpacity>
+          )}
+        />
+      ) : (
+        <Text>There are no favorites</Text>
+      )}
+    </SafeAreaView>
   )
 }
 
