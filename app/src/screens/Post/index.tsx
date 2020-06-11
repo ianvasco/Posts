@@ -2,18 +2,19 @@ import React, {useEffect, useState} from 'react'
 import {View, Text, Spinner} from 'native-base'
 import {ScrollView} from 'react-native'
 import {RouteProp} from '@react-navigation/native'
-import {RootStackParamList} from 'src/routes'
+import {RootStackParamList} from '../../routes'
 import {StackNavigationProp} from '@react-navigation/stack'
 import Header from '../../components/Header'
 import ApiService, {IPosts, IUser, IComment} from '../../services/api'
 import {SafeAreaView} from 'react-native-safe-area-context'
+import {useStore, Actions} from '../../store'
+import {PostStatus} from '../../components/PostPreview'
 
 type PostScreenRouteProp = RouteProp<RootStackParamList, 'Post'>
 
 interface IProps {
   navigation: StackNavigationProp<any>
   route: PostScreenRouteProp
-  onFavorite: () => void
 }
 
 const Post = (props: IProps) => {
@@ -21,6 +22,7 @@ const Post = (props: IProps) => {
   const [user, setUser] = useState<IUser>()
   const [comments, setComments] = useState<IComment[]>()
   const [isLoading, setLoading] = useState(false)
+  const {postsState, dispatch} = useStore()
 
   useEffect(() => {
     const {params} = props.route
@@ -55,7 +57,18 @@ const Post = (props: IProps) => {
         title="Posts"
         navigation={props.navigation}
         enableBack={true}
-        rightIconProps={{type: 'favorite', buttonAction: props.onFavorite}}
+        rightIconProps={{
+          type: 'favorite',
+          buttonAction: () =>
+            dispatch({
+              type: Actions.updatePosts,
+              payload: postsState.map((pst) => {
+                if (post && post.id === pst.id)
+                  return {...pst, status: PostStatus.starred}
+                return pst
+              }),
+            }),
+        }}
       />
       <ScrollView>
         <View style={{flex: 1, margin: 16}}>

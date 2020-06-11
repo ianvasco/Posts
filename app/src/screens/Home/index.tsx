@@ -2,10 +2,12 @@ import React, {useEffect, useState} from 'react'
 import {FlatList, TouchableOpacity} from 'react-native'
 import {View, Text, Button} from 'native-base'
 import PostPreview, {PostStatus} from '../../components/PostPreview'
+import Header from '../../components/Header'
 import ApiService, {IPosts} from '../../services/api'
 import {RootStackParamList} from '../../routes'
 import {StackNavigationProp} from '@react-navigation/stack'
 import {useStore, Actions} from '../../store'
+import {SafeAreaView} from 'react-native-safe-area-context'
 
 interface IProps {
   navigation: StackNavigationProp<any>
@@ -39,11 +41,17 @@ const Home = ({navigation}: IProps) => {
 
   return (
     <>
-      <View
+      <SafeAreaView
         style={{
           flex: 1,
           backgroundColor: 'white',
         }}>
+        <Header
+          title="Posts"
+          navigation={navigation}
+          enableBack={false}
+          rightIconProps={{type: 'refresh', buttonAction: getPosts}}
+        />
         <FlatList
           data={postsState}
           keyExtractor={(item) => `${item.id}`}
@@ -63,7 +71,7 @@ const Home = ({navigation}: IProps) => {
             </TouchableOpacity>
           )}
         />
-      </View>
+      </SafeAreaView>
       <Button full danger>
         <Text>Delete All</Text>
       </Button>

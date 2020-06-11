@@ -49,7 +49,7 @@ const CustomHeader = ({
         <Button
           testID="header-custom-right-button"
           transparent
-          onPress={() => navigation.goBack()}>
+          onPress={rightIconProps.buttonAction}>
           <Icon
             style={{
               color: rightIconProps.type === 'favorite' ? '#ffec00' : 'black',
