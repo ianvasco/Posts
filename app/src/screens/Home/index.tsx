@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from 'react'
-import {FlatList, TouchableOpacity} from 'react-native'
-import {View, Text, Button} from 'native-base'
+import React, {useEffect, useRef} from 'react'
+import {FlatList, TouchableOpacity, Animated, View} from 'react-native'
+import {Text, Button} from 'native-base'
 import PostPreview, {PostStatus} from '../../components/PostPreview'
 import Header from '../../components/Header'
 import ApiService, {IPosts} from '../../services/api'
-import {RootStackParamList} from '../../routes'
+
 import {StackNavigationProp} from '@react-navigation/stack'
 import {useStore, Actions} from '../../store'
 import {SafeAreaView} from 'react-native-safe-area-context'
@@ -15,6 +15,7 @@ interface IProps {
 
 const Home = ({navigation}: IProps) => {
   const {postsState, dispatch} = useStore()
+  const fadeAnim = useRef(new Animated.Value(1)).current
 
   const getPosts = () => {
     ApiService.getPosts()
@@ -40,6 +41,19 @@ const Home = ({navigation}: IProps) => {
     navigation.navigate('Post', {post: item})
   }
 
+  const deleteAll = () => {
+    // Will change fadeAnim value to 0 in 5 seconds
+    Animated.timing(fadeAnim, {
+      toValue: 0,
+      duration: 1000,
+      useNativeDriver: true,
+    }).start(() =>
+      dispatch({
+        type: Actions.deletePosts,
+      }),
+    )
+  }
+
   return (
     <>
       <SafeAreaView
@@ -51,35 +65,41 @@ const Home = ({navigation}: IProps) => {
           title="Posts"
           navigation={navigation}
           enableBack={false}
-          rightIconProps={{type: 'refresh', buttonAction: getPosts}}
+          rightIconProps={{
+            type: 'refresh',
+            buttonAction: () => {
+              getPosts()
+              fadeAnim.setValue(1)
+            },
+          }}
         />
-        <FlatList
-          data={postsState}
-          keyExtractor={(item) => `${item.id}`}
-          renderItem={({item, index}) => (
-            <TouchableOpacity onPress={() => handleOnPress(index, item)}>
-              <PostPreview
-                status={item.status}
-                description={item.body}
-                removePost={() =>
-                  dispatch({
-                    type: Actions.updatePosts,
-                    payload: postsState.filter((item, i) => i !== index),
-                  })
-                }
-              />
-            </TouchableOpacity>
-          )}
-        />
+        <Animated.View
+          style={[
+            {
+              opacity: fadeAnim,
+            },
+          ]}>
+          <FlatList
+            data={postsState}
+            keyExtractor={(item) => `${item.id}`}
+            renderItem={({item, index}) => (
+              <TouchableOpacity onPress={() => handleOnPress(index, item)}>
+                <PostPreview
+                  status={item.status}
+                  description={item.body}
+                  removePost={() => {
+                    dispatch({
+                      type: Actions.updatePosts,
+                      payload: postsState.filter((item, i) => i !== index),
+                    })
+                  }}
+                />
+              </TouchableOpacity>
+            )}
+          />
+        </Animated.View>
       </SafeAreaView>
-      <Button
-        full
-        danger
-        onPress={() =>
-          dispatch({
-            type: Actions.deletePosts,
-          })
-        }>
+      <Button full danger onPress={deleteAll}>
         <Text>Delete All</Text>
       </Button>
     </>
