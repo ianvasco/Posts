@@ -72,7 +72,14 @@ const Home = ({navigation}: IProps) => {
           )}
         />
       </SafeAreaView>
-      <Button full danger>
+      <Button
+        full
+        danger
+        onPress={() =>
+          dispatch({
+            type: Actions.deletePosts,
+          })
+        }>
         <Text>Delete All</Text>
       </Button>
     </>

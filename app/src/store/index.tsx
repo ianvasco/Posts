@@ -4,10 +4,15 @@ import {PostStatus} from '../components/PostPreview'
 
 export enum Actions {
   updatePosts,
+  deletePosts,
 }
 interface UpdatePostsAction {
   type: Actions.updatePosts
   payload: IPosts[]
+}
+
+interface DeletePostsAction {
+  type: Actions.deletePosts
 }
 
 interface ContextProps {
@@ -15,17 +20,17 @@ interface ContextProps {
   dispatch: Dispatch<AuthReducerActions>
 }
 
-type AuthReducerActions = UpdatePostsAction
+type AuthReducerActions = UpdatePostsAction | DeletePostsAction
 
-const initialState: IPosts[] = [
-  {userId: 0, id: 0, title: '', body: '', status: PostStatus.regular},
-]
+const initialState: IPosts[] = []
 const StoreContext = createContext({} as ContextProps)
 
 const reducer = (postsState: IPosts[], action: AuthReducerActions) => {
   switch (action.type) {
     case Actions.updatePosts:
       return [...action.payload]
+    case Actions.deletePosts:
+      return []
     default:
       throw new Error('action type does not exist')
   }
