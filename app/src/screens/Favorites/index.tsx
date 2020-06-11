@@ -40,6 +40,7 @@ const Home = ({navigation}: IProps) => {
       <Header title="Favorites" navigation={navigation} enableBack={false} />
       {starredPosts && starredPosts?.length > 0 ? (
         <FlatList
+          testID="favorites-list"
           data={starredPosts}
           keyExtractor={(item) => `${item.id}`}
           renderItem={({item, index}) => (
@@ -49,7 +50,7 @@ const Home = ({navigation}: IProps) => {
           )}
         />
       ) : (
-        <Text>There are no favorites</Text>
+        <Text testID="no-favorites-message">There are no favorites</Text>
       )}
     </SafeAreaView>
   )
